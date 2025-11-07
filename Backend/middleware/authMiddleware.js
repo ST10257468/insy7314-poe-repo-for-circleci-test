@@ -1,0 +1,29 @@
+/*
+ATTRIBUTES:
+    Website:SecureBlog Activity
+    Author: talia0404
+    URL: https://github.com/talia0404/INSY7314/tree/main/SecureBlog%20Activity
+    Accessed on: 2025-09-29
+
+*/
+
+const jwt = require("jsonwebtoken");
+
+const protect = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded JWT:", decoded);
+    req.user = decoded; // Attach user info to request
+    next();
+  } catch (err) {
+    res.status(403).json({ message: "Token invalid or expired" });
+  }
+};
+
+module.exports = { protect };

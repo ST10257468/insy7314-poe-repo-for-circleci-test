@@ -1,0 +1,22 @@
+/*
+ATTRIBUTES:
+    Website: Login SignUp Animation
+    Author: The Coding Wizard
+    URL: https://www.instagram.com/reel/DPVpuWdjMzl/?igsh=MW45N3MydWQzZ3cxNw==
+    Accessed on: 2025-09-30
+*/
+
+/* Initial state for Register form */
+.form-box.Register .animations {
+  transform: translateX(120%);
+  transition: 0.7s ease;
+  opacity: 0;
+  filter: blur(10px);
+}
+
+/* When container is active (slide in) */
+.container.active .animations {
+  transform: translateX(0%);
+  opacity: 1;
+  transition-delay: calc(0.1s * var(--li));
+}
