@@ -21,12 +21,12 @@ ATTRIBUTES:
   Accessed on: 2025-10-10  
 */
 
-const mongoose = require('mongoose');
-const app = require('./app');
-const https = require('https');
-const fs = require('fs');
+const mongoose = require("mongoose");
+const app = require("./app");
+const https = require("https");
+const fs = require("fs");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
 //const HTTPS_PORT = process.env.HTTPS_PORT || 5001;
@@ -36,17 +36,18 @@ const PORT = process.env.PORT || 5000;
   console.log(`Server running on port ${PORT}`);
 });*/
 const sslOptions = {
-  key: fs.readFileSync('./ssl/privatekey.pem'),
-  cert: fs.readFileSync('./ssl/certificate.pem')
+  key: fs.readFileSync("./ssl/privatekey.pem"),
+  cert: fs.readFileSync("./ssl/certificate.pem"),
 };
 
 //connect to mongodb and start https server
-mongoose.connect(process.env.MONGO_URI)
-  .then(()=>{
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
     https.createServer(sslOptions, app).listen(PORT, () => {
-        console.log(`secure server running at https://localhost:${PORT}`);
+      console.log(`secure server running at https://localhost:${PORT}`);
     });
   })
-  .catch((err) =>{
-    console.error('Mongo DB connections error:', err);
+  .catch((err) => {
+    console.error("Mongo DB connections error:", err);
   });

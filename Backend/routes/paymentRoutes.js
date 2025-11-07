@@ -13,13 +13,31 @@ ATTRIBUTES:
 
 const express = require("express");
 const router = express.Router();
-const { createPayment, getPayments } = require("../controllers/paymentController");
+const {
+  createPayment,
+  listPayments,
+  getPayments,
+  getPayment, 
+  processPayment,
+  deletePayment
+} = require("../controllers/paymentController");
 const { protect } = require("../middleware/authMiddleware");
+const { requireRole } = require("../middleware/roleMiddleware");
 
 // Create a new payment
 router.post("/", protect, createPayment);
 
-// Get all payments 
-router.get("/", protect, getPayments);
+// List all payments
+router.get("/", protect, requireRole(["staff", "auditor", "admin"]), listPayments);
+
+// View one payment
+router.get("/:paymentId", protect, requireRole(["staff", "auditor", "admin"]), getPayment);
+
+// Process payment
+router.put("/:paymentId/process", protect, requireRole(["staff", "admin"]), processPayment);
+
+// Delete payment
+router.delete("/:paymentId", protect, requireRole(["admin"]), deletePayment);
 
 module.exports = router;
+

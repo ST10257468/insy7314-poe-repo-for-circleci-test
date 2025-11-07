@@ -32,4 +32,15 @@ const loginRules = [
     body("password").isString().notEmpty().withMessage("Password is required"),
 ];
 
-module.exports = {registerRules, loginRules};
+//employee login
+const loginEmployeeRules = [
+  body("employeeId")
+    .notEmpty()
+    .withMessage("Employee ID is required"),
+  body("password")
+    .isString()
+    .notEmpty()
+    .withMessage("Password is required"),
+];
+
+module.exports = {registerRules, loginRules, loginEmployeeRules};

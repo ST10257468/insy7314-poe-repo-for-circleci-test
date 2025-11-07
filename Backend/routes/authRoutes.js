@@ -9,15 +9,20 @@ ATTRIBUTES:
 
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../controllers/authController");
-const { registerRules, loginRules } = require("../utils/validator");
+const { register, login, loginEmployee } = require("../controllers/authController");
+const { registerRules, loginRules, loginEmployeeRules } = require("../utils/validator");
 const rateLimit = require("express-rate-limit");
 
 //brute-force limiter for login
 const loginLimit = rateLimit({ windowMs: 10 * 60 * 1000, max: 20});
 
+
+//customer
 router.post("/register", registerRules, register);
-router.post("/login", loginRules, login);
+router.post("/login", loginRules,loginLimit, login);
+
+//employee
+router.post("/employee/login", loginEmployeeRules, loginLimit, loginEmployee);
 
 module.exports = router;
 
